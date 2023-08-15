@@ -1,50 +1,51 @@
 import { useState } from "react";
+import Submit from "./components/Submit";
+import ScoreBoard from "./components/ScoreBoard";
+import ScoreInput from "./components/ScoreInput";
 
 const App = () => {
+  // Final Result State
   const [totalScoreTeamOne, setTotalScoreTeamOne] = useState(0);
   const [totalScoreTeamTwo, setTotalScoreTeamTwo] = useState(0);
-  // const [teamOneBid, setTeamOneBid] = useState(5);
-  // const [teamTwoBid, setTeamTwoBid] = useState(5);
+  // Bid State
+  const [oneValue, setOneValue] = useState(5);
+  const [twoValue, setTwoValue] = useState(5);
+  // Score Board State
   const [boardOne, setBoardOne] = useState([]);
   const [boardTwo, setBoardTwo] = useState([]);
-  // const [arithmetic, setArithmetic] = useState("");
-  // const [inputState, setInputState] = useState({ ...initialInputState });
-  // NEW STATE
-
-  const [twoArith, setTwoArith] = useState("");
-  const [twoValue, setTwoValue] = useState(5);
+  // Arithmetic state
   const [oneArith, setOneArith] = useState("");
-  const [oneValue, setOneValue] = useState(5);
-
+  const [twoArith, setTwoArith] = useState("");
   const [teamOne, setTeamOne] = useState(false);
   const [teamTwo, setTeamTwo] = useState(false);
-
   const [disabled, setDisabled] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (oneArith === "add") {
+    setOneValue(0);
+    setTwoValue(0);
+    setOneArith("");
+    setTwoArith("");
+
+    if (oneArith === "+") {
       setTotalScoreTeamOne(totalScoreTeamOne + oneValue);
-      const listOne = boardOne;
       const str = oneValue.toString();
-      setBoardOne([...listOne, `+${str}`]);
+      setBoardOne([...boardOne, `+${str}`]);
     } else {
       setTotalScoreTeamOne(totalScoreTeamOne - oneValue);
-      const listOne = boardOne;
+
       const str = oneValue.toString();
-      setBoardOne([...listOne, `-${str}`]);
+      setBoardOne([...boardOne, `-${str}`]);
     }
-    if (twoArith === "add") {
+    if (twoArith === "+") {
       setTotalScoreTeamTwo(totalScoreTeamTwo + twoValue);
-      const listTwo = boardTwo;
       const strTwo = twoValue.toString();
-      setBoardTwo([...listTwo, `+${strTwo}`]);
+      setBoardTwo([...boardTwo, `+${strTwo}`]);
     } else {
       setTotalScoreTeamTwo(totalScoreTeamTwo - twoValue);
-      const listTwo = boardTwo;
       const strTwo = twoValue.toString();
-      setBoardTwo([...listTwo, `-${strTwo}`]);
+      setBoardTwo([...boardTwo, `-${strTwo}`]);
     }
     setDisabled(true);
     setTeamOne(false);
@@ -52,55 +53,36 @@ const App = () => {
   };
   const handleTeamOneClickSub = (e) => {
     e.preventDefault();
-    setOneArith("sub");
+    setOneArith("-");
     setTeamOne(true);
-    if (teamOne === teamTwo) {
+    if (oneArith && twoArith) {
       setDisabled(false);
     }
-
-    // setArithmetic("sub");
-    // setInputState({
-    //   arithmetic: "sub",
-    // });
   };
   const handleTeamOneClickAdd = (e) => {
     e.preventDefault();
-    setOneArith("add");
+    setOneArith("+");
     setTeamOne(true);
-    if (teamOne === teamTwo) {
+    if (oneArith && twoArith) {
       setDisabled(false);
     }
-
-    // setTotalScoreTeamOne(totalScoreTeamOne + teamOneBid);
-    // const list = boardOne;
-    // const str = teamOneBid.toString();
-    // setBoardOne([...list, `+${str}`]);
-    // setArithmetic("add");
   };
   // Team 02 Function
   const handleTeamTwoClickAdd = (e) => {
     e.preventDefault();
-    // setTotalScoreTeamTwo(totalScoreTeamTwo + teamTwoBid);
-    setTwoArith("add");
+    setTwoArith("+");
     setTeamTwo(true);
-    if (teamOne === teamTwo) {
+    if (oneArith && twoArith) {
       setDisabled(false);
     }
-    // const list = boardTwo;
-    // const str = teamTwoBid.toString();
-    // setBoardTwo([...list, `+${str}`]);
   };
   const handleTeamTwoClickSub = (e) => {
     e.preventDefault();
-    setTwoArith("sub");
+    setTwoArith("-");
     setTeamTwo(true);
-    if (teamOne === teamTwo) {
+    if (oneArith && twoArith) {
       setDisabled(false);
     }
-    // setTotalScoreTeamTwo(totalScoreTeamTwo - teamTwoBid);
-    // const list = boardTwo;
-    // const str = teamTwoBid.toString();
-    // setBoardTwo([...list, `-${str}`]);
   };
   return (
     <div className="flex justify-center ">
@@ -109,93 +91,44 @@ const App = () => {
           Card Master
         </h1>
         <div className="flex flex-col items-center justify-center mt-3 rounded">
-          <div className="score-board h-[450px] w-[340px] bg-gray-900  flex justify-between">
-            <div className="team1 border rounded-t-md w-1/2">
-              <h1
-                contentEditable="true"
-                className="text-center border-b p-2 text-2xl"
-              >
-                Team1
-              </h1>
-              <div className=" h-[350px] border text-center  overflow-scroll overflow-x-hidden overflow-y-scroll no-scrollbar text-xl">
-                {boardOne.map((item, i) => (
-                  <div key={i}>
-                    <p>{`${i}: ${item}`}</p>
-                    <hr />
-                  </div>
-                ))}
-              </div>
-              <div className="total border-t flex items-center justify-center h-[45px]">
-                <p className="text-2xl font-semibold">
-                  Total: {totalScoreTeamOne}
-                </p>
-              </div>
-            </div>
-            <div className="team2 border rounded-t-md w-1/2">
-              <h1
-                contentEditable="true"
-                className="text-center  border-b p-2 text-2xl"
-              >
-                Team2
-              </h1>
-              <div className=" h-[350px] border text-center  overflow-scroll overflow-x-hidden overflow-y-scroll no-scrollbar text-xl">
-                {boardTwo.map((item, i) => (
-                  <div key={i}>
-                    <p>{`${i}: ${item}`}</p>
-                    <hr />
-                  </div>
-                ))}
-              </div>
-              <div className="total border-t flex items-center justify-center h-[45px]">
-                <p className="text-2xl font-semibold">
-                  Total: {totalScoreTeamTwo}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="add  w-[340px] mt-2   flex items-center justify-between">
+          <ScoreBoard
+            boardOne={boardOne}
+            boardTwo={boardTwo}
+            totalScoreTeamOne={totalScoreTeamOne}
+            totalScoreTeamTwo={totalScoreTeamTwo}
+          />
+
+          <div className="add  w-[340px]   flex items-center justify-between">
             <div className="team1 w-1/2 text-center ">
-              <form className=" team-1 ">
-                <select
-                  className="py-2 px-11  bg-gray-50 border border-gray-300 text-gray-900 font-bold rounded focus:ring-blue-500 focus:border-blue-500 "
-                  name="bid"
-                  onChange={(e) => {
-                    setOneValue(Math.floor(e.target.value));
-                  }}
-                >
-                  <option value="5">5</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="10">10</option>
-                  <option value="13">13</option>
-                </select>
-                <div className="flex mt-2 justify-center gap-3">
-                  <button
-                    type="submit"
-                    className="btn bg-red-500 font-bold text-2xl"
-                    value="-"
-                    onClick={handleTeamOneClickSub}
-                  >
-                    -
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn bg-green-500 font-bold text-2xl"
-                    value="+"
-                    onClick={handleTeamOneClickAdd}
-                  >
-                    +
-                  </button>
-                </div>
-              </form>
+              <p>
+                {oneValue}
+                {oneArith}
+              </p>
+              <ScoreInput
+                oneValue={oneValue}
+                twoValue={twoValue}
+                setOneValue={setOneValue}
+                setTwoValue={setTwoValue}
+                handleTeamOneClickAdd={handleTeamOneClickAdd}
+                handleTeamOneClickSub={handleTeamOneClickSub}
+              />
             </div>
             <div className="team2 w-1/2 text-center">
+              <p>
+                {twoValue}
+                {twoArith}
+              </p>
               <form className="" action="">
                 <select
                   className="py-2 px-11  bg-gray-50 border border-gray-300 text-gray-900 font-bold rounded focus:ring-blue-500 focus:border-blue-500 "
                   name="bid"
                   id=""
-                  onChange={(e) => setTwoValue(Math.floor(e.target.value))}
+                  onChange={(e) => {
+                    setTwoValue(Math.floor(e.target.value));
+                    if (twoValue !== 5) {
+                      setOneValue(5);
+                    }
+                  }}
                 >
                   <option value="5">5</option>
                   <option value="7">7</option>
@@ -227,7 +160,9 @@ const App = () => {
             <button
               disabled={disabled}
               onClick={handleSubmit}
-              className="px-8 py-3 rounded font-bold text-lg bg-green-700 mt-4"
+              className={`mt-2 px-8 py-3 rounded font-bold ${
+                disabled ? "bg-red-400" : "bg-green-500"
+              }`}
             >
               Submit
             </button>
