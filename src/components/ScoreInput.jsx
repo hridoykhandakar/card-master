@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const ScoreInput = ({
   setOneValue,
   oneValue,
@@ -9,7 +11,7 @@ const ScoreInput = ({
   return (
     <section>
       <form className=" team-1 ">
-        <select
+        {/* <select
           className="py-2 px-11  bg-gray-50 border border-gray-300 text-gray-900 font-bold rounded focus:ring-blue-500 focus:border-blue-500 "
           name="bid"
           onChange={(e) => {
@@ -24,7 +26,19 @@ const ScoreInput = ({
           <option value="8">8</option>
           <option value="10">10</option>
           <option value="13">13</option>
-        </select>
+        </select> */}
+        <input
+          type="range"
+          min="5"
+          max="13"
+          value={oneValue}
+          onChange={(e) => {
+            setOneValue(Math.floor(e.target.value));
+            if (oneValue !== 5) {
+              setTwoValue(5);
+            }
+          }}
+        />
         <div className="flex mt-2 justify-center gap-3">
           <button
             type="submit"

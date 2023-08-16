@@ -2,6 +2,7 @@ import { useState } from "react";
 import Submit from "./components/Submit";
 import ScoreBoard from "./components/ScoreBoard";
 import ScoreInput from "./components/ScoreInput";
+import Modal from "./components/Modal";
 
 const App = () => {
   // Final Result State
@@ -19,6 +20,18 @@ const App = () => {
   const [teamOne, setTeamOne] = useState(false);
   const [teamTwo, setTeamTwo] = useState(false);
   const [disabled, setDisabled] = useState(true);
+  const [win, setWin] = useState(false);
+
+  function winChecker(team1, team2) {
+    if (team1 >= 50) {
+      setWin(true);
+      console.log("team1 wind");
+    }
+    if (team2 >= 50) {
+      setWin(true);
+      console.log("team2 win");
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,6 +40,7 @@ const App = () => {
     setTwoValue(0);
     setOneArith("");
     setTwoArith("");
+    winChecker(totalScoreTeamOne, totalScoreTeamTwo);
 
     if (oneArith === "+") {
       setTotalScoreTeamOne(totalScoreTeamOne + oneValue);
@@ -86,7 +100,7 @@ const App = () => {
   };
   return (
     <div className="flex justify-center ">
-      <section className="w-96 h-screen  rounded">
+      <section className="w-96 h-screen rounded">
         <h1 className="font-semibold text-[43px] mt-3 text-center">
           Card Master
         </h1>
@@ -96,6 +110,8 @@ const App = () => {
             boardTwo={boardTwo}
             totalScoreTeamOne={totalScoreTeamOne}
             totalScoreTeamTwo={totalScoreTeamTwo}
+            setTotalScoreTeamOne={setTotalScoreTeamOne}
+            setTotalScoreTeamTwo={setTotalScoreTeamTwo}
           />
 
           <div className="add  w-[340px]   flex items-center justify-between">
@@ -119,23 +135,20 @@ const App = () => {
                 {twoArith}
               </p>
               <form className="" action="">
-                <select
-                  className="py-2 px-11  bg-gray-50 border border-gray-300 text-gray-900 font-bold rounded focus:ring-blue-500 focus:border-blue-500 "
-                  name="bid"
-                  id=""
+                <input
+                  className="bg-teal-400 "
+                  type="range"
+                  min="5"
+                  max="13"
+                  step="1"
+                  value={twoValue}
                   onChange={(e) => {
                     setTwoValue(Math.floor(e.target.value));
                     if (twoValue !== 5) {
                       setOneValue(5);
                     }
                   }}
-                >
-                  <option value="5">5</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="10">10</option>
-                  <option value="13">13</option>
-                </select>
+                />
                 <div className="flex mt-2 justify-center gap-3">
                   <button
                     type="submit"
