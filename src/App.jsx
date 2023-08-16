@@ -40,7 +40,6 @@ const App = () => {
     setTwoValue(0);
     setOneArith("");
     setTwoArith("");
-    winChecker(totalScoreTeamOne, totalScoreTeamTwo);
 
     if (oneArith === "+") {
       setTotalScoreTeamOne(totalScoreTeamOne + oneValue);
@@ -64,6 +63,7 @@ const App = () => {
     setDisabled(true);
     setTeamOne(false);
     setTeamTwo(false);
+    winChecker(totalScoreTeamOne, totalScoreTeamTwo);
   };
   const handleTeamOneClickSub = (e) => {
     e.preventDefault();
@@ -116,7 +116,7 @@ const App = () => {
 
           <div className="add  w-[340px]   flex items-center justify-between">
             <div className="team1 w-1/2 text-center ">
-              <p>
+              <p className="font-bold">
                 {oneValue}
                 {oneArith}
               </p>
@@ -130,13 +130,13 @@ const App = () => {
               />
             </div>
             <div className="team2 w-1/2 text-center">
-              <p>
+              <p className="font-bold">
                 {twoValue}
                 {twoArith}
               </p>
               <form className="" action="">
                 <input
-                  className="bg-teal-400 "
+                  className="appearance-none  h-4  rounded-lg outline-none "
                   type="range"
                   min="5"
                   max="13"

@@ -28,6 +28,7 @@ const ScoreInput = ({
           <option value="13">13</option>
         </select> */}
         <input
+          className="appearance-none  h-4  rounded-lg outline-none"
           type="range"
           min="5"
           max="13"
