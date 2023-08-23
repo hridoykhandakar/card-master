@@ -1,7 +1,7 @@
 const EditValue = ({ value, setValue }) => {
   return (
     <form
-      className="flex items-center w-fit  justify-center  "
+      className="flex bg-gray-900 items-center w-fit  justify-center  "
       onSubmit={(e) => e.preventDefault()}
       action=""
     >

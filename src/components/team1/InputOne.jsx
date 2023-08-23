@@ -1,5 +1,8 @@
 import { useContext, useState } from "react";
 import ScoreContext from "../../ScoreContext";
+import Button from "../ui/Button";
+import Input from "../ui/Input";
+import Bid from "../ui/Bid";
 
 const InputOne = () => {
   const [red, setRed] = useState(false);
@@ -21,6 +24,20 @@ const InputOne = () => {
       setBidTwo(5);
     }
   };
+  const handleClickMinus = (e) => {
+    e.preventDefault();
+    setOperationOne("-");
+    setHtOne(totalScoreOne - bidOne);
+    setRed(true);
+    check();
+  };
+  const handleClickPlush = (e) => {
+    e.preventDefault();
+    setOperationOne("+");
+    setHtOne(totalScoreOne + bidOne);
+    setRed(false);
+    check();
+  };
   const check = () => {
     if (operationTwo && bidOne != bidTwo) {
       setDisable(false);
@@ -29,47 +46,21 @@ const InputOne = () => {
   return (
     <>
       <div className="input">
-        <p className={`text-base ${red ? "text-red-400 font-bold" : ""}`}>
-          {operationOne}
-          {bidOne}
-        </p>
-        <input
-          type="range"
-          min="5"
-          max="13"
-          value={bidOne}
-          onChange={handleChange}
-        />
+        <Bid red={red} operation={operationOne} value={bidOne} />
+
+        <Input handleChange={handleChange} value={bidOne} />
       </div>
       <div className="buttons flex mt-1  justify-around">
-        <button
-          type="submit"
-          className="btn bg-red-500 font-bold text-2xl"
-          value="-"
-          onClick={(e) => {
-            e.preventDefault();
-            setOperationOne("-");
-            setHtOne(totalScoreOne - bidOne);
-            setRed(true);
-            check();
-          }}
-        >
-          -
-        </button>
-        <button
-          type="submit"
-          className="btn bg-green-500 font-bold text-2xl"
-          value="+"
-          onClick={(e) => {
-            e.preventDefault();
-            setOperationOne("+");
-            setHtOne(totalScoreOne + bidOne);
-            setRed(false);
-            check();
-          }}
-        >
-          +
-        </button>
+        <Button
+          color={"bg-red-500"}
+          handleClick={handleClickMinus}
+          value={"-"}
+        />
+        <Button
+          color={"bg-green-500"}
+          handleClick={handleClickPlush}
+          value={"+"}
+        />
       </div>
     </>
   );

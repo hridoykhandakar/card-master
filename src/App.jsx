@@ -111,13 +111,13 @@ const App = () => {
           <Celebration name={name} />
         </>
       ) : (
-        <section className="w-96 relative bg-gray-800 h-screen flex flex-col items-center  border-2 rounded-md">
+        <section className="w-96 relative  bg-gray-800 opacity-90 h-screen flex flex-col items-center  border-2 rounded-md">
           <div className="title">
-            <h1 className="text-3xl font-semibold text-center mt-5 underline underline-offset-4 decoration-sky-500 uppercase ">
+            <h1 className="text-3xl  px-5 py-2 shadow-lg font-semibold text-center mt-2 underline underline-offset-4 decoration-sky-500 uppercase ">
               Card Master
             </h1>
           </div>
-          <div className="box relative w-80 h-[450px] border rounded-md bg-gray-900 bg-opacity-50 backdrop-blur-lg mt-8 flex justify-center">
+          <div className="box relative w-80 h-[420px] border rounded-md bg-gray-900 bg-opacity-50 mt-8 flex justify-center">
             <BoardOne />
             <BoardTwo />
           </div>
@@ -134,8 +134,8 @@ const App = () => {
               disabled={disable}
               onClick={handleSubmit}
               className={`${
-                disable ? "bg-gray-400" : ""
-              } mt-2 px-8 py-3 rounded font-bold  bg-green-500`}
+                disable ? "bg-gray-400" : "bg-green-500"
+              } mt-2 px-8 py-3 rounded font-bold  `}
             >
               Submit
             </button>
