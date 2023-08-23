@@ -1,5 +1,8 @@
 import { useContext, useState } from "react";
 import ScoreContext from "../../ScoreContext";
+import Button from "../ui/Button";
+import Input from "../ui/Input";
+import Bid from "../ui/Bid";
 
 const InputTwo = () => {
   const [red, setRed] = useState(false);
@@ -26,50 +29,38 @@ const InputTwo = () => {
       setDisable(false);
     }
   };
+  const handleClickPlush = (e) => {
+    e.preventDefault();
+    setOperationTwo("+");
+    setHtTwo(totalScoreTwo + bidTwo);
+    setRed(false);
+    check();
+  };
+  const handleClickMinus = (e) => {
+    e.preventDefault();
+    setOperationTwo("-");
+    setHtTwo(totalScoreTwo - bidTwo);
+    setRed(true);
+    check();
+  };
   return (
     <>
       <div className="input">
-        <p className={`text-base ${red ? "text-red-400 font-bold" : ""}`}>
-          {operationTwo}
-          {bidTwo}
-        </p>
-        <input
-          type="range"
-          min="5"
-          max="13"
-          value={bidTwo}
-          onChange={handleChange}
-        />
+        <Bid operation={operationTwo} red={red} value={bidTwo} />
+
+        <Input handleChange={handleChange} value={bidTwo} />
       </div>
       <div className="buttons flex mt-1  justify-around">
-        <button
-          type="submit"
-          className="btn bg-red-500 font-bold text-2xl"
-          value="-"
-          onClick={(e) => {
-            e.preventDefault();
-            setOperationTwo("-");
-            setHtTwo(totalScoreTwo - bidTwo);
-            setRed(true);
-            check();
-          }}
-        >
-          -
-        </button>
-        <button
-          type="submit"
-          className="btn bg-green-500 font-bold text-2xl"
-          value="+"
-          onClick={(e) => {
-            e.preventDefault();
-            setOperationTwo("+");
-            setHtTwo(totalScoreTwo + bidTwo);
-            setRed(false);
-            check();
-          }}
-        >
-          +
-        </button>
+        <Button
+          color={"bg-red-500"}
+          handleClick={handleClickMinus}
+          value={"-"}
+        />
+        <Button
+          color={"bg-green-500"}
+          handleClick={handleClickPlush}
+          value={"+"}
+        />
       </div>
     </>
   );

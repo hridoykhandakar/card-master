@@ -32,7 +32,7 @@ export function ScoreProvider({ children }) {
     setTotalScoreOne(eval(`${totalScoreOne}  ${operator} ${value}`));
   }
   // TEAM TWO STATE
-  const [nameTwo, setNameTwo] = useState("Team 01");
+  const [nameTwo, setNameTwo] = useState("Team 02");
   const [idTwo, setIdTwo] = useState(1);
   const [bidHistoryTwo, setBidHistoryTwo] = useState([]);
   const [totalScoreTwo, setTotalScoreTwo] = useState(0);
