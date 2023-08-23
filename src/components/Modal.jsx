@@ -4,10 +4,10 @@ const Modal = ({
   title = "This is Title",
   setValue,
   setEdit,
-  team,
+  value,
   type = "number",
 }) => {
-  const [inputValue, setInputValue] = useState(team);
+  const [inputValue, setInputValue] = useState(value);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -21,7 +21,7 @@ const Modal = ({
   return (
     <div
       id="default-modal"
-      className=" absolute w-[320px] ml-2   overflow-hidden   rounded mt-10 py-5 text-white flex  justify-center items-center"
+      className="absolute top-0 w-[320px] rounded mt-10 py-5 text-white flex  justify-center items-center"
     >
       <div className=" flex flex-col justify-center ">
         <div className="relative">

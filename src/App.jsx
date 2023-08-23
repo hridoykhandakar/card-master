@@ -1,188 +1,149 @@
-import { useState } from "react";
-import Submit from "./components/Submit";
-import ScoreBoard from "./components/ScoreBoard";
-import ScoreInput from "./components/ScoreInput";
-import Modal from "./components/Modal";
+import { useContext, useEffect, useState } from "react";
+import ScoreContext from "./ScoreContext";
+import BoardOne from "./components/team1/BoardOne";
+import BoardTwo from "./components/team2/BoardTwo";
+import InputOne from "./components/team1/InputOne";
+import InputTwo from "./components/team2/InputTwo";
+import Celebration from "./components/Celebration";
 
 const App = () => {
-  // Final Result State
-  const [totalScoreTeamOne, setTotalScoreTeamOne] = useState(0);
-  const [totalScoreTeamTwo, setTotalScoreTeamTwo] = useState(0);
-  // Bid State
-  const [oneValue, setOneValue] = useState(5);
-  const [twoValue, setTwoValue] = useState(5);
-  // Score Board State
-  const [boardOne, setBoardOne] = useState([]);
-  const [boardTwo, setBoardTwo] = useState([]);
-  // Arithmetic state
-  const [oneArith, setOneArith] = useState("");
-  const [twoArith, setTwoArith] = useState("");
-  const [teamOne, setTeamOne] = useState(false);
-  const [teamTwo, setTeamTwo] = useState(false);
-  const [disabled, setDisabled] = useState(true);
+  const {
+    bidHistoryOne,
+    setBidHistoryOne,
+    bidOne,
+    setBidOne,
+    operationOne,
+    setOperationOne,
+    idOne,
+    setIdOne,
+    scoreOne,
+    htOne,
+    valueOne,
+    setValueOne,
+    totalScoreOne,
+    setRedOne,
+    nameOne,
+
+    // two
+    bidHistoryTwo,
+    setBidHistoryTwo,
+    bidTwo,
+    setBidTwo,
+    operationTwo,
+    setOperationTwo,
+    idTwo,
+    setIdTwo,
+    scoreTwo,
+    htTwo,
+    valueTwo,
+    setValueTwo,
+    totalScoreTwo,
+    setRedTwo,
+    nameTwo,
+    // global
+    disable,
+    setDisable,
+  } = useContext(ScoreContext);
+
   const [win, setWin] = useState(false);
-
-  function winChecker(team1, team2) {
-    if (team1 >= 50) {
+  const [name, setName] = useState("");
+  useEffect(() => {
+    if (totalScoreOne >= 50 || totalScoreTwo >= 50) {
       setWin(true);
-      console.log("team1 wind");
+      if (totalScoreOne >= 50) {
+        setName(nameOne);
+      } else {
+        setName(nameOne);
+      }
     }
-    if (team2 >= 50) {
-      setWin(true);
-      console.log("team2 win");
+    if (totalScoreOne < 0) {
+      setRedOne(true);
+    } else {
+      setRedOne(false);
     }
-  }
-
+    if (totalScoreTwo < 0) {
+      setRedTwo(true);
+    } else {
+      setRedTwo(false);
+    }
+  }, [totalScoreOne, setBidHistoryTwo]);
+  // Main Submit
   const handleSubmit = (e) => {
     e.preventDefault();
+    setBidHistoryOne([
+      ...bidHistoryOne,
+      {
+        id: idOne,
+        value: bidOne,
+        operation: operationOne,
+        hTotal: htOne,
+        valueOne,
+      },
+    ]);
+    setIdOne(idOne + 1);
 
-    setOneValue(0);
-    setTwoValue(0);
-    setOneArith("");
-    setTwoArith("");
-    winChecker(totalScoreTeamOne, totalScoreTeamTwo);
-
-    if (oneArith === "+") {
-      setTotalScoreTeamOne(totalScoreTeamOne + oneValue);
-      const str = oneValue.toString();
-      setBoardOne([...boardOne, `+${str}`]);
-    } else {
-      setTotalScoreTeamOne(totalScoreTeamOne - oneValue);
-
-      const str = oneValue.toString();
-      setBoardOne([...boardOne, `-${str}`]);
-    }
-    if (twoArith === "+") {
-      setTotalScoreTeamTwo(totalScoreTeamTwo + twoValue);
-      const strTwo = twoValue.toString();
-      setBoardTwo([...boardTwo, `+${strTwo}`]);
-    } else {
-      setTotalScoreTeamTwo(totalScoreTeamTwo - twoValue);
-      const strTwo = twoValue.toString();
-      setBoardTwo([...boardTwo, `-${strTwo}`]);
-    }
-    setDisabled(true);
-    setTeamOne(false);
-    setTeamTwo(false);
-  };
-  const handleTeamOneClickSub = (e) => {
-    e.preventDefault();
-    setOneArith("-");
-    setTeamOne(true);
-    if (oneArith && twoArith) {
-      setDisabled(false);
-    }
-  };
-  const handleTeamOneClickAdd = (e) => {
-    e.preventDefault();
-    setOneArith("+");
-    setTeamOne(true);
-    if (oneArith && twoArith) {
-      setDisabled(false);
-    }
-  };
-  // Team 02 Function
-  const handleTeamTwoClickAdd = (e) => {
-    e.preventDefault();
-    setTwoArith("+");
-    setTeamTwo(true);
-    if (oneArith && twoArith) {
-      setDisabled(false);
-    }
-  };
-  const handleTeamTwoClickSub = (e) => {
-    e.preventDefault();
-    setTwoArith("-");
-    setTeamTwo(true);
-    if (oneArith && twoArith) {
-      setDisabled(false);
-    }
+    scoreOne(operationOne, bidOne);
+    setOperationOne("");
+    setBidOne(5);
+    setValueOne(htOne);
+    // Team 2
+    setBidHistoryTwo([
+      ...bidHistoryTwo,
+      {
+        id: idTwo,
+        value: bidTwo,
+        operation: operationTwo,
+        hTotal: htTwo,
+        valueTwo,
+      },
+    ]);
+    setIdTwo(idTwo + 1);
+    scoreTwo(operationTwo, bidTwo);
+    setOperationTwo("");
+    setBidTwo(7);
+    setDisable(true);
+    setValueTwo(htTwo);
   };
   return (
-    <div className="flex justify-center ">
-      <section className="w-96 h-screen rounded">
-        <h1 className="font-semibold text-[43px] mt-3 text-center">
-          Card Master
-        </h1>
-        <div className="flex flex-col items-center justify-center mt-3 rounded">
-          <ScoreBoard
-            boardOne={boardOne}
-            boardTwo={boardTwo}
-            totalScoreTeamOne={totalScoreTeamOne}
-            totalScoreTeamTwo={totalScoreTeamTwo}
-            setTotalScoreTeamOne={setTotalScoreTeamOne}
-            setTotalScoreTeamTwo={setTotalScoreTeamTwo}
-          />
-
-          <div className="add  w-[340px]   flex items-center justify-between">
-            <div className="team1 w-1/2 text-center ">
-              <p>
-                {oneValue}
-                {oneArith}
-              </p>
-              <ScoreInput
-                oneValue={oneValue}
-                twoValue={twoValue}
-                setOneValue={setOneValue}
-                setTwoValue={setTwoValue}
-                handleTeamOneClickAdd={handleTeamOneClickAdd}
-                handleTeamOneClickSub={handleTeamOneClickSub}
-              />
-            </div>
-            <div className="team2 w-1/2 text-center">
-              <p>
-                {twoValue}
-                {twoArith}
-              </p>
-              <form className="" action="">
-                <input
-                  className="bg-teal-400 "
-                  type="range"
-                  min="5"
-                  max="13"
-                  step="1"
-                  value={twoValue}
-                  onChange={(e) => {
-                    setTwoValue(Math.floor(e.target.value));
-                    if (twoValue !== 5) {
-                      setOneValue(5);
-                    }
-                  }}
-                />
-                <div className="flex mt-2 justify-center gap-3">
-                  <button
-                    type="submit"
-                    className="btn cursor-pointer bg-red-500 font-bold text-2xl"
-                    onClick={handleTeamTwoClickSub}
-                  >
-                    -
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn cursor-pointer bg-green-500 font-bold text-2xl"
-                    value="+"
-                    onClick={handleTeamTwoClickAdd}
-                  >
-                    +
-                  </button>
-                </div>
-              </form>
-            </div>
+    <main className="bg-gray-900 flex justify-center">
+      {win ? (
+        <>
+          <Celebration name={name} />
+        </>
+      ) : (
+        <section className="w-96 relative bg-gray-800 h-screen flex flex-col items-center  border-2 rounded-md">
+          <div className="title">
+            <h1 className="text-3xl font-semibold text-center mt-5 underline underline-offset-4 decoration-sky-500 uppercase ">
+              Card Master
+            </h1>
           </div>
-          <div>
+          <div className="box relative w-80 h-[450px] border rounded-md bg-gray-900 bg-opacity-50 backdrop-blur-lg mt-8 flex justify-center">
+            <BoardOne />
+            <BoardTwo />
+          </div>
+          <section className="scoreInput w-80 mt-2  flex text-center ">
+            <div className="one w-1/2">
+              <InputOne />
+            </div>
+            <div className="two w-1/2">
+              <InputTwo />
+            </div>
+          </section>
+          <div className="submit mt-1">
             <button
-              disabled={disabled}
+              disabled={disable}
               onClick={handleSubmit}
-              className={`mt-2 px-8 py-3 rounded font-bold ${
-                disabled ? "bg-red-400" : "bg-green-500"
-              }`}
+              className={`${
+                disable ? "bg-gray-400" : ""
+              } mt-2 px-8 py-3 rounded font-bold  bg-green-500`}
             >
               Submit
             </button>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      )}
+    </main>
   );
 };
+
 export default App;
